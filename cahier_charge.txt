@@ -1,0 +1,37 @@
+LIBRARIZE.me
+
+partie connexion / inscription
+mot de passe oublie
+
+Accueil : Afficher liste de mes evenement passes sur l'app
+AJouter des produits (afficher sur la timeline)
+Ajouter des amis (afficher sur la timeline)
+
+Menu :
+Rechercher un produit selon 4 type (enum)
+- jeux
+- livre
+- film
+-
+
+Base produit en NoSQL
+Mangouze
+Amazone product API
+
+
+Partie ami (CRUD)
+
+Visualiser sa bibliotheque
+
+Emprunt de produit : echange d'un produit entre deux users
+
+Modification du profil
+
+
+> Git
+> express
+> Sequelize
+> Mangouse
+> Request
+
+> documentation
