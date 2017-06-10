@@ -20,10 +20,6 @@ router.get('/logout', function(req, res){
   req.logout();
 });
 
-router.get('/', function(req, res) {
-  res.status(200).send('ok');
-});
-
 router.post('/register', function(req, res, next) {
   if (req.body.password == req.body.password_confirmation) {
     User.create({
@@ -42,16 +38,5 @@ router.post('/register', function(req, res, next) {
     res.status(422).send('Password and password confirmation are different');
   }
 });
-
-// app.get('/login', function(req, res, next) {
-//   passport.authenticate('local', function(err, user, info) {
-//     if (err) { return next(err); }
-//     if (!user) { return res.redirect('/login'); }
-//     req.logIn(user, function(err) {
-//       if (err) { return next(err); }
-//       return res.redirect('/users/' + user.username);
-//     });
-//   })(req, res, next);
-// });
 
 module.exports = router;
