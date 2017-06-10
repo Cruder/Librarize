@@ -4,8 +4,12 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var passport = require('passport');
+var Strategy = require('passport-local').Strategy;
+var passwordHash = require('password-hash');
 
 const models = require('./models');
+const User = models.user;
 
 var app = express();
 
@@ -30,6 +34,44 @@ app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
+});
+
+passport.use(new Strategy({
+  usernameField: 'email',
+  passwordField: 'password',
+  passReqToCallback: true,
+  session: false
+}, function(req, email, password, cb) {
+  User.findOne({ where: { email: email }}).then(function(user) {
+    if (!user) {
+      return cb(null, false);
+    } else if (!passwordHash.verify(password, user.password)) {
+      return cb(null, false);
+    }
+    return cb(null, user);
+  }).catch(function(err) {
+    return err;
+  });
+}));
+
+// Configure Passport authenticated session persistence.
+//
+// In order to restore authentication state across HTTP requests, Passport needs
+// to serialize users into and deserialize users out of the session.  The
+// typical implementation of this is as simple as supplying the user ID when
+// serializing, and querying the user record by ID from the database when
+// deserializing.
+passport.serializeUser(function(user, cb) {
+  cb(null, user.id)
+});
+
+passport.deserializeUser(function(id, cb) {
+  User.findById(id, function (err, user) {
+    if (err) {
+      return cb(err);
+    }
+    cb(null, user);
+  });
 });
 
 // error handler
