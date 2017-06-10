@@ -5,6 +5,18 @@ const Product = models.product;
 const Property = models.property;
 var router = express.Router();
 
+router.post('/', function (req, res) {
+  Product.create({
+    category: req.body.category,
+    name: req.body.name,
+    picture: req.body.picture
+  }).then(function (product) {
+    res.status(201).send(product);
+  }).catch(function (error) {
+    res.status(422).send(error);
+  })
+});
+
 router.get('/like', function(req, res) {
   if (req.query.name != '' || req.query.name != undefined) {
     Product.findAll({
