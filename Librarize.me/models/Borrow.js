@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-  var Borrow = sequelize.define('Borrow', {
+  var borrow = sequelize.define('borrow', {
     id: {
       type: DataTypes.BIGINT,
       primaryKey: true,
@@ -15,18 +15,12 @@ module.exports = function(sequelize, DataTypes) {
     freezeTableName: true,
     classMethods: {
       associate: function(models) {
-        Borrow.belongsTo(models.User, {
+        borrow.belongsTo(models.user, {
           as: 'to'
         });
-        Borrow.belongsTo(models.User, {
-          through: 'Property'
-        });
-        Borrow.belongsTo(models.Product, {
-          through: 'Property'
-        });
-        Borrow.belongsTo(models.Property);
+        borrow.belongsTo(models.property);
       }
     }
   });
-  return Borrow;
+  return borrow;
 };

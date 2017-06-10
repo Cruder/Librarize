@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-  var Property = sequelize.define('Property', {
+  var property = sequelize.define('property', {
     id: {
       type: DataTypes.BIGINT,
       primaryKey: true,
@@ -9,11 +9,10 @@ module.exports = function(sequelize, DataTypes) {
     freezeTableName: true,
     classMethods: {
       associate: function(models) {
-        Property.belongsTo(models.User);
-        Property.belongsTo(models.Product);
-        Property.hasMany(models.Borrow);
+        property.belongsTo(models.user);
+        property.belongsTo(models.product);
       }
     }
   });
-  return Property;
+  return property;
 };

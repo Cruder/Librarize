@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-  var Product = sequelize.define('Product', {
+  var product = sequelize.define('product', {
     id: {
       type: DataTypes.BIGINT,
       primaryKey: true,
@@ -12,17 +12,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.ENUM('Music', 'Movie', 'Book', 'Game')
     }
   }, {
-    freezeTableName: true,
-    classMethods: {
-      associate: function(models) {
-        Product.belongsToMany(models.User, {
-          through: "Property"
-        });
-        Product.belongsToMany(models.Borrow, {
-          through: "Property"
-        });
-      }
-    }
+    freezeTableName: true
   });
-  return Product;
+  return product;
 };
