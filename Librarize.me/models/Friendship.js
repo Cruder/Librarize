@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-  var Friendship = sequelize.define('Friendship', {
+  var friendship = sequelize.define('friendship', {
     id: {
       type: DataTypes.BIGINT,
       primaryKey: true,
@@ -12,14 +12,14 @@ module.exports = function(sequelize, DataTypes) {
     freezeTableName: true,
     classMethods: {
       associate: function(models) {
-        Friendship.belongsTo(models.User, {
+        friendship.belongsTo(models.user, {
           as: 'user1'
         });
-        Friendship.belongsTo(models.User, {
+        friendship.belongsTo(models.user, {
           as: 'user2'
         });
       }
     }
   });
-  return Friendship;
+  return friendship;
 };

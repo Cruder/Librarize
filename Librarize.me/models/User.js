@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-  var User = sequelize.define('User', {
+  var user = sequelize.define('user', {
     id: {
       type: DataTypes.BIGINT,
       primaryKey: true,
@@ -26,22 +26,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING
     }
   }, {
-    freezeTableName: true,
-    classMethods: {
-      associate: function(models) {
-        User.belongsToMany(models.Product, {
-          through: "Property"
-        });
-        User.belongsToMany(User, {
-          through: 'Priendship',
-          as: 'Friends'
-        });
-        User.belongsToMany(models.Borrow, {
-          through: 'Property'
-        });
-        User.hasMany(models.Borrow);
-      }
-    }
+    freezeTableName: true
   });
-  return User;
+  return user;
 };
