@@ -2,6 +2,7 @@ var express = require('express');
 const models = require('../models');
 const User = models.user;
 const Product = models.product;
+const Property = models.property;
 var router = express.Router();
 
 router.get('/like', function(req, res) {
@@ -14,17 +15,40 @@ router.get('/like', function(req, res) {
           $like: '%' + req.query.name + '%'
         }
       }
-    }).then(function (products, error) {
-      res.status(200).send(products)
+    }).then(function (products) {
+      res.status(200).send(products);
     })
   } else {
     res.status(200).send('[]');
   }
 });
 
-
-router.get('/', function (req, res) {
-  res.status(200).send('ok')
-})
+router.post('/:id/librarize', function (req, res) {
+  User.find({
+    where: {
+      id: req.body.userId
+    }
+  }).then(function (user) {
+    Product.find({
+      where: {
+        id: req.params.id
+      }
+    }).then(function (product) {
+      if (user != null && product != null) {
+        Property.create({
+          userId: req.body.userId,
+          productId: req.params.id
+        });
+        res.status(200);
+      } else {
+        res.status(404).send('Resources not found');
+      }
+    }).catch(function (error) {
+      res.status(404).send(error);
+    });
+  }).catch(function (error) {
+    res.status(404).send(error);
+  });
+});
 
 module.exports = router;
