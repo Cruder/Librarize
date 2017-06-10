@@ -10,6 +10,7 @@ var passwordHash = require('password-hash');
 
 var index = require('./routes/index');
 var auth = require('./routes/auth');
+var products = require('./routes/products');
 
 const models = require('./models');
 const User = models.user;
@@ -31,8 +32,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
 app.use('/', index);
 app.use('/auth', auth);
+app.use('/products', products);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
