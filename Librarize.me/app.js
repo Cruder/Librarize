@@ -8,6 +8,9 @@ var passport = require('passport');
 var Strategy = require('passport-local').Strategy;
 var passwordHash = require('password-hash');
 
+var index = require('./routes/index');
+var auth = require('./routes/auth');
+
 const models = require('./models');
 const User = models.user;
 
@@ -28,6 +31,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/', index);
+app.use('/auth', auth);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -73,6 +78,12 @@ passport.deserializeUser(function(id, cb) {
     cb(null, user);
   });
 });
+
+// Initialize Passport and restore authentication state, if any, from the
+// session.
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 // error handler
 app.use(function(err, req, res, next) {
