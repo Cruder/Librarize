@@ -33,4 +33,23 @@ router.get('/:id/products', function(req, res, next) {
   });
 });
 
+router.delete('/:userId/properties/:id', function(req, res, next) {
+  Property.find({
+    where: {
+      userId: req.params.userId,
+      id: req.params.id
+    }
+  }).then(function (property) {
+    if(property != null) {
+      property.destroy().then(function(property) {
+        res.status(204)
+      }).catch(function(error) {
+        res.status(422).send(error);
+      })
+    }
+  }).catch(function (error) {
+    res.status(422).send(error);
+  });
+});
+
 module.exports = router;
