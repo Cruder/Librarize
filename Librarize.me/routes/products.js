@@ -51,7 +51,7 @@ router.post('/:id/librarize', function (req, res) {
           userId: req.body.userId,
           productId: req.params.id
         });
-        res.status(200);
+        res.status(200).send('Librarized !');
       } else {
         res.status(404).send('Resources not found');
       }
