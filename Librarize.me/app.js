@@ -12,6 +12,7 @@ var index = require('./routes/index');
 var auth = require('./routes/auth');
 var products = require('./routes/products');
 var users = require('./routes/users');
+var friendships = require('./routes/friendships');
 var borrows = require('./routes/borrows');
 
 const models = require('./models');
@@ -39,6 +40,7 @@ app.use('/', index);
 app.use('/auth', auth);
 app.use('/products', products);
 app.use('/users', users);
+app.use('/friendships', friendships);
 app.use('/borrows', borrows);
 
 // catch 404 and forward to error handler
