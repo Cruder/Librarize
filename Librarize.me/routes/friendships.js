@@ -6,9 +6,9 @@ const Friendship = models.friendship;
 
 
 // Accept a invitation to be friends
-router.put('invit/:id/accept', function (req, res) {
+router.put('/invites/:id/accept', function (req, res) {
   Friendship.update({
-    status: 'Accepted'
+    state: 'Accepted'
   }, {
     where: {
       id: req.params.id
@@ -23,9 +23,9 @@ router.put('invit/:id/accept', function (req, res) {
 })
 
 // Refuse a invitation to be friends
-router.put('invit/:id/accept', function (req, res) {
+router.put('/invites/:id/accept', function (req, res) {
   Friendship.update({
-    status: 'Refused'
+    state: 'Refused'
   }, {
     where: {
       id: req.params.id

@@ -60,34 +60,30 @@ router.get('/', function (req, res) {
 })
 
 // Ask someone to be friend
-router.post('/:id/invit', function (req, res) {
+router.post('/:id/invite', function (req, res, next) {
   if (req.params.id == req.body.userId) {
     res.status(422).send("Can't send an ivitation to yourself !");
   }
-  console.log(req.params.id);
-  console.log(req.body.userId);
-  Friendship.find({
-    $or: [
-      {
-        where: {
+  Friendship.findAll({
+    where : {
+      $or: [
+        {
           user1Id: req.params.id,
           user2Id: req.body.userId,
-          status: {
+          state: {
             $ne: 'Refused'
           }
-        }
-      }, {
-        where: {
+        }, {
           user2Id: req.params.id,
           user1Id: req.body.userId,
-          status: {
+          state: {
             $ne: 'Refused'
           }
         }
-      }
-    ]
+      ]
+    }
   }).then(function (friendship) {
-    if (friendship != undefined) {
+    if (friendship.length != 0) {
       res.status(422).json({ error: "An invitation already exists" });
     }
   }).catch(function (error) {
@@ -98,7 +94,6 @@ router.post('/:id/invit', function (req, res) {
       id: req.params.id
     }
   }).then(function (user1) {
-    console.log(user1);
     if (user1 != undefined) {
       User.find({
         where: {
@@ -109,7 +104,7 @@ router.post('/:id/invit', function (req, res) {
           Friendship.create({
             user1Id: req.params.id,
             user2Id: req.body.userId,
-            status: 'Waiting'
+            state: 'Waiting'
           }).then(function (friendship) {
             res.status(200).send(friendship);
           })
