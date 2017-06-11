@@ -23,7 +23,7 @@ router.put('/invites/:id/accept', function (req, res) {
 })
 
 // Refuse a invitation to be friends
-router.put('/invites/:id/accept', function (req, res) {
+router.put('/invites/:id/refuse', function (req, res) {
   Friendship.update({
     state: 'Refused'
   }, {

@@ -5,6 +5,7 @@ const User = models.user;
 const Property = models.property;
 const Product = models.product;
 const Friendship = models.friendship;
+const Borrow = models.borrow;
 
 // Update the data of a user
 router.put('/:id', function (req, res) {
@@ -133,6 +134,30 @@ router.get('/:id/invites', function (req, res) {
   })
 })
 
+// Show all the borrows
+router.get('/:userId/borrows', function (req, res) {
+  Borrow.findAll({
+    where: {
+      toId: req.params.userId,
+      state: 'Accepted'
+    },
+    include: [{ model: Property }]
+  }).then(function (borrows) {
+    res.status(200).send(borrows);
+  })
+})
+
+router.get('/:userId/borrows_wait', function (req, res) {
+  Borrow.findAll({
+    where: {
+      toId: req.params.userId,
+      state: 'Waiting'
+    },
+    include: [{ model: Property }]
+  }).then(function (borrows) {
+    res.status(200).send(borrows);
+  })
+})
 
 // // Display all friends of a user
 // router.get('/:id/friends', function (req, res) {

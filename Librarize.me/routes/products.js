@@ -25,7 +25,9 @@ router.put('/:id', function (req, res) {
     name: req.body.name,
     picture: req.body.picture
   }, {
-    id: req.params.id
+    where: {
+      id: req.params.id
+    }
   }).then(function (product) {
     res.status(200).send(product);
   }).catch(function (error) {
