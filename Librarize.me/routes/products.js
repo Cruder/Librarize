@@ -5,6 +5,7 @@ const Product = models.product;
 const Property = models.property;
 var router = express.Router();
 
+// Add a product to database
 router.post('/', function (req, res) {
   Product.create({
     category: req.body.category,
@@ -17,6 +18,7 @@ router.post('/', function (req, res) {
   })
 });
 
+// Search a product with a key word
 router.get('/like', function(req, res) {
   if (req.query.name != '' || req.query.name != undefined) {
     Product.findAll({
@@ -35,6 +37,7 @@ router.get('/like', function(req, res) {
   }
 });
 
+// Add a product to the library of a user as a property
 router.post('/:id/librarize', function (req, res) {
   User.find({
     where: {

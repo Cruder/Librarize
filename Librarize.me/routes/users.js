@@ -5,19 +5,17 @@ const User = models.user;
 const Property = models.property;
 const Product = models.product;
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
-
+// Update the data of a user
 router.put('/:id', function (req, res) {
 
 });
 
+// Change the password of a user
 router.put('/:id/reset_password', function (req, res) {
 
 });
 
+// Get all the elements of a library of a user
 router.get('/:id/products', function(req, res, next) {
   Property.findAll({
     where: {
@@ -33,6 +31,7 @@ router.get('/:id/products', function(req, res, next) {
   });
 });
 
+// Delete an element from the library of a user
 router.delete('/:userId/properties/:id', function(req, res, next) {
   Property.find({
     where: {

@@ -4,6 +4,7 @@ const models = require('../models');
 const User = models.user;
 var router = express.Router();
 
+// Sign in as a user
 router.post('/login', passport.authenticate('local'), function(req, res) {
   User.find({
     where: {
@@ -16,10 +17,12 @@ router.post('/login', passport.authenticate('local'), function(req, res) {
   });
 });
 
+// Sign out
 router.get('/logout', function(req, res){
   req.logout();
 });
 
+// Sign up as a user
 router.post('/register', function(req, res, next) {
   if (req.body.password == req.body.password_confirmation) {
     User.create({
