@@ -20,7 +20,7 @@ router.post('/', function (req, res) {
 
 // Update a product to database
 router.put('/:id', function (req, res) {
-  Product.upadte({
+  Product.update({
     category: req.body.category,
     name: req.body.name,
     picture: req.body.picture
