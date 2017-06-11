@@ -10,7 +10,8 @@ router.post('/', function (req, res) {
       propertyId: req.body.propertyId,
       until: {
         gte: new Date()
-      }
+      },
+      state: 'Accepted'
     }
   }).then(function (borrow) {
     console.log("Error borrow");

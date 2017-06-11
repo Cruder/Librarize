@@ -9,7 +9,8 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.DATE
     },
     state: {
-      type: DataTypes.ENUM('Refused', 'Accepted', 'Waiting', 'Canceled')
+      type: DataTypes.ENUM('Refused', 'Accepted', 'Waiting',
+                           'Canceled', 'Returned')
     }
   }, {
     freezeTableName: true,
