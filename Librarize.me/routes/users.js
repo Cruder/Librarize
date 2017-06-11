@@ -52,15 +52,17 @@ router.delete('/:userId/properties/:id', function(req, res) {
   });
 });
 
+// Get list of users
 router.get('/', function (req, res) {
   User.findAll().then(function (users) {
     res.status(200).send(users)
   })
 })
 
+// Ask someone to be friend
 router.post('/:id/invit', function (req, res) {
   if (req.params.id == req.body.userId) {
-    res.status(422).send("Can't send an ivitation to yourself !")
+    res.status(422).send("Can't send an ivitation to yourself !");
   }
   console.log(req.params.id);
   console.log(req.body.userId);
@@ -69,21 +71,27 @@ router.post('/:id/invit', function (req, res) {
       {
         where: {
           user1Id: req.params.id,
-          user2Id: req.body.userId
+          user2Id: req.body.userId,
+          status: {
+            $ne: 'Refused'
+          }
         }
       }, {
         where: {
           user2Id: req.params.id,
-          user1Id: req.body.userId
+          user1Id: req.body.userId,
+          status: {
+            $ne: 'Refused'
+          }
         }
       }
     ]
   }).then(function (friendship) {
     if (friendship != undefined) {
-      res.status(422).json({ error: "An invitation already exists" })
+      res.status(422).json({ error: "An invitation already exists" });
     }
   }).catch(function (error) {
-    res.status(422).send(error)
+    res.status(422).send(error);
   });
   User.find({
     where: {
@@ -97,22 +105,64 @@ router.post('/:id/invit', function (req, res) {
           id: req.body.userId
         }
       }).then(function (user2) {
-        console.log(user2);
         if (user2 != undefined) {
           Friendship.create({
             user1Id: req.params.id,
-            user2Id: req.body.userId
+            user2Id: req.body.userId,
+            status: 'Waiting'
           }).then(function (friendship) {
-            res.status(200).send(friendship)
+            res.status(200).send(friendship);
           })
         } else {
-          res.status(404).json({ error: "Unknown user" })
+          res.status(404).json({ error: "Unknown user" });
         }
       })
     } else {
-      res.status(404).json({ error: "Unknown user" })
+      res.status(404).json({ error: "Unknown user" });
     }
   })
 })
+
+// Display all the waiting invitations
+router.get('/:id/invites', function (req, res) {
+  Friendship.findAll({
+    where: {
+      user2Id: req.params.id,
+      state: 'Waiting'
+    },
+    include: [{ model: User, as: 'user1' }]
+  }).then(function (users) {
+    res.status(200).send(users);
+  }).catch(function (error) {
+    res.status(422).send(error);
+  })
+})
+
+
+// // Display all friends of a user
+// router.get('/:id/friends', function (req, res) {
+//   Friendship.findAll({
+//     where: {
+//       user1Id: req.params.id
+//     }
+//   }).then(function (friendship) {
+//     console.log(friendship);
+//   })
+//   // User.findById(req.params.id, {
+//   //   include: [{
+//   //     model: Friendship,
+//   //     as: 'user1Id'
+//     // }, {
+//     //   model: Friendship,
+//     //   as: 'user2'
+//     }]
+//   }).then(function (user) {
+//     if (user != undefined) {
+//       res.status(200).send(user)
+//     } else {
+//       res.status(404).json({ error: "Unknown user" })
+//     }
+//   })
+// })
 
 module.exports = router;

@@ -2,8 +2,6 @@ var express = require('express');
 var router = express.Router();
 const models = require('../models');
 const User = models.user;
-const Property = models.property;
-const Product = models.product;
 const Friendship = models.friendship;
 
 
@@ -19,7 +17,7 @@ router.put('invit/:id/accept', function (req, res) {
     if (friendship != undefined) {
       res.status(200).send(friendship);
     } else {
-      res.status(404).json({error: "Friendship not found"});
+      res.status(404).json({ error: "Friendship not found" });
     }
   })
 })
@@ -36,7 +34,7 @@ router.put('invit/:id/accept', function (req, res) {
     if (friendship != undefined) {
       res.status(200).send(friendship);
     } else {
-      res.status(404).json({error: "Friendship not found"});
+      res.status(404).json({ error: "Friendship not found" });
     }
   })
 })
