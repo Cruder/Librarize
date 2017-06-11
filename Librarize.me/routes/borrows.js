@@ -44,4 +44,20 @@ router.post('/', function (req, res) {
   })
 });
 
+// Accept a borrow
+router.put('/:id/accept', function (req, res) {
+  Borrow.update({
+    state: 'Accepted'
+  }, {
+    where: {
+      id: req.params.id,
+      state: 'Waiting'
+    }
+  }).then(function (borrow) {
+    res.status(200).send(borrow);
+  }).catch(function (error) {
+    res.status(422).send(error);
+  });
+})
+
 module.exports = router;
