@@ -14,8 +14,6 @@ router.post('/', function (req, res) {
       state: 'Accepted'
     }
   }).then(function (borrow) {
-    console.log("Error borrow");
-    console.log(borrow);
     if(borrow !== null) {
       res.status(422).send("Can't borrow a borrowed object");
       return
@@ -25,8 +23,6 @@ router.post('/', function (req, res) {
           id: req.body.propertyId
         }
       }).then(function (property) {
-        console.log("Error property 2");
-        console.log(property.dataValues);
         if(property === null) {
           res.status(422).send("Can't find property");
         } else if(property.dataValues.userId == req.body.userId) {
