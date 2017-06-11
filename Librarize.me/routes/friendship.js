@@ -24,4 +24,21 @@ router.put('invit/:id/accept', function (req, res) {
   })
 })
 
+// Refuse a invitation to be friends
+router.put('invit/:id/accept', function (req, res) {
+  Friendship.update({
+    status: 'Refused'
+  }, {
+    where: {
+      id: req.params.id
+    }
+  }).then(function (friendship) {
+    if (friendship != undefined) {
+      res.status(200).send(friendship);
+    } else {
+      res.status(404).json({error: "Friendship not found"});
+    }
+  })
+})
+
 module.exports = router;
