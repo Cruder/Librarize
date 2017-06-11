@@ -18,6 +18,21 @@ router.post('/', function (req, res) {
   })
 });
 
+// Update a product to database
+router.put('/:id', function (req, res) {
+  Product.upadte({
+    category: req.body.category,
+    name: req.body.name,
+    picture: req.body.picture
+  }, {
+    id: req.params.id
+  }).then(function (product) {
+    res.status(200).send(product);
+  }).catch(function (error) {
+    res.status(422).send(error);
+  })
+});
+
 // Search a product with a key word
 router.get('/like', function(req, res) {
   if (req.query.name != '' || req.query.name != undefined) {
